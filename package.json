@@ -3,6 +3,9 @@
   "version": "1.0.6",
   "license": "MIT",
   "author": "Borys Koretskyi",
+  "repository": "github:defusioner/redux-polling-thunk",
+  "bugs": "https://github.com/defusioner/redux-polling-thunk/issues",
+  "homepage": "https://github.com/defusioner/redux-polling-thunk",
   "keywords": [
     "redux",
     "polling"
