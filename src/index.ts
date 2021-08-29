@@ -57,7 +57,7 @@ function startPolling<State>(
   options: PollingOptions<State>,
   meta = { numberOfIterations: 1 }
 ): ThunkAction<void, State, any, any> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const {
       fetchFunction,
       onError,
@@ -66,7 +66,12 @@ function startPolling<State>(
       shouldContinueCondition,
       timeout = DEFAULT_POLLING_TIMEOUT,
       unregisterPolling,
+      getPollingRegistration
     } = options
+    
+    const pollingIsRegistered = getPollingRegistration(getState(), name)
+    
+    if(!pollingIsRegistered) return
 
     if (!shouldStartCondition()) {
       dispatch(unregisterPolling(name))
