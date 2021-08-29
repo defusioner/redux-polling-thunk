@@ -1,6 +1,6 @@
 {
   "name": "redux-polling-thunk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "author": "Borys Koretskyi",
   "repository": "github:defusioner/redux-polling-thunk",
@@ -47,11 +47,6 @@
   },
   "peerDependencies": {
     "redux-thunk": "^2.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
   },
   "prettier": {
     "printWidth": 80,
