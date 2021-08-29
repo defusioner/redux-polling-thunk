@@ -25,8 +25,8 @@ describe('polling', () => {
     await dispatch(
       createPolling(key, {
         fetchFunction: jest.fn(),
-        registerPolling: name => ({ type: REGISTER_POLLING, name }),
-        unregisterPolling: name => ({ type: UNREGISTER_POLLING, name }),
+        registerPolling: (name) => ({ type: REGISTER_POLLING, name }),
+        unregisterPolling: (name) => ({ type: UNREGISTER_POLLING, name }),
         getPollingRegistration: jest.fn(),
         shouldContinueCondition: () => false,
         shouldStartCondition: () => false,
@@ -86,11 +86,23 @@ describe('polling', () => {
     )
     const onFinish = jest.fn()
 
+    let isRegistered = false
+
+    function getPollingRegistration() {
+      return isRegistered
+    }
+
     await dispatch(
       createPolling(key, {
-        getPollingRegistration: () => false,
-        registerPolling: name => ({ type: REGISTER_POLLING, name }),
-        unregisterPolling: name => ({ type: UNREGISTER_POLLING, name }),
+        getPollingRegistration,
+        registerPolling: (name) => {
+          isRegistered = true
+          return { type: REGISTER_POLLING, name }
+        },
+        unregisterPolling: (name) => {
+          isRegistered = false
+          return { type: UNREGISTER_POLLING, name }
+        },
         fetchFunction,
         shouldStartCondition,
         shouldContinueCondition,
@@ -128,11 +140,23 @@ describe('polling', () => {
     const onFinish = jest.fn()
     const onError = jest.fn()
 
+    let isRegistered = false
+
+    function getPollingRegistration() {
+      return isRegistered
+    }
+
     await dispatch(
       createPolling('test-polling', {
-        getPollingRegistration: () => false,
-        registerPolling: name => () => ({ type: REGISTER_POLLING, name }),
-        unregisterPolling: name => () => ({ type: UNREGISTER_POLLING, name }),
+        getPollingRegistration,
+        registerPolling: (name) => {
+          isRegistered = true
+          return { type: REGISTER_POLLING, name }
+        },
+        unregisterPolling: (name) => {
+          isRegistered = false
+          return { type: UNREGISTER_POLLING, name }
+        },
         shouldContinueCondition: () => true,
         shouldStartCondition: () => true,
         fetchFunction: () => () => Promise.reject(42),

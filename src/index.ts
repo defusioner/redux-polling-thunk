@@ -66,14 +66,12 @@ function startPolling<State>(
       shouldContinueCondition,
       timeout = DEFAULT_POLLING_TIMEOUT,
       unregisterPolling,
-      getPollingRegistration
+      getPollingRegistration,
     } = options
-    
-    const pollingIsRegistered = getPollingRegistration(getState(), name)
-    
-    if(!pollingIsRegistered) return
 
-    if (!shouldStartCondition()) {
+    const pollingIsRegistered = getPollingRegistration(getState(), name)
+
+    if (!shouldStartCondition() || !pollingIsRegistered) {
       dispatch(unregisterPolling(name))
       return
     }
