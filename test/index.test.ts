@@ -86,23 +86,11 @@ describe('polling', () => {
     )
     const onFinish = jest.fn()
 
-    let isRegistered = false
-
-    function getPollingRegistration() {
-      return isRegistered
-    }
-
     await dispatch(
       createPolling(key, {
-        getPollingRegistration,
-        registerPolling: (name) => {
-          isRegistered = true
-          return { type: REGISTER_POLLING, name }
-        },
-        unregisterPolling: (name) => {
-          isRegistered = false
-          return { type: UNREGISTER_POLLING, name }
-        },
+        getPollingRegistration: () => false,
+        registerPolling: name => ({ type: REGISTER_POLLING, name }),
+        unregisterPolling: name => ({ type: UNREGISTER_POLLING, name }),
         fetchFunction,
         shouldStartCondition,
         shouldContinueCondition,
@@ -140,23 +128,11 @@ describe('polling', () => {
     const onFinish = jest.fn()
     const onError = jest.fn()
 
-    let isRegistered = false
-
-    function getPollingRegistration() {
-      return isRegistered
-    }
-
     await dispatch(
       createPolling('test-polling', {
-        getPollingRegistration,
-        registerPolling: (name) => {
-          isRegistered = true
-          return { type: REGISTER_POLLING, name }
-        },
-        unregisterPolling: (name) => {
-          isRegistered = false
-          return { type: UNREGISTER_POLLING, name }
-        },
+        getPollingRegistration: () => false,
+        registerPolling: name => () => ({ type: REGISTER_POLLING, name }),
+        unregisterPolling: name => () => ({ type: UNREGISTER_POLLING, name }),
         shouldContinueCondition: () => true,
         shouldStartCondition: () => true,
         fetchFunction: () => () => Promise.reject(42),
